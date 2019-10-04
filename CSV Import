@@ -1,0 +1,13 @@
+Sub CSV_Import()
+Dim ws As Worksheet, strFile As String
+
+Set ws = ActiveSheet 'set to current worksheet name
+
+strFile = Application.GetOpenFilename("CSV Files (*.csv),*.csv", , "Please select CSV file...")
+
+With ws.QueryTables.Add(Connection:="TEXT;" & strFile, Destination:=ws.Range("A1"))
+     .TextFileParseType = xlDelimited
+     .TextFileCommaDelimiter = True
+     .Refresh
+End With
+End Sub
