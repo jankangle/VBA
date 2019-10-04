@@ -1,0 +1,15 @@
+Sub ClearAllData()
+Dim DATASHEETS As String
+Dim Counter As Integer
+Dim SplitCatcher As Variant
+ 
+DATASHEETS = "IV RF MB LEAN1 SD RICH1 SS LEAN2 RICH2 LEAN3 RICH3 LEAN4 RICH4 LEAN5 RICH5 LEAN6 RICH6 LEAN7 RICH7 CIV"
+ 
+SplitCatcher = Split(DATASHEETS, " ")
+ 
+For Counter = 0 To UBound(SplitCatcher)
+    ActiveWorkbook.Sheets(SplitCatcher(Counter)).Range("A1:H50").Clear
+    'MsgBox SplitCatcher(Counter)
+Next
+ 
+End Sub
