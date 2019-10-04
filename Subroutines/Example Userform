@@ -1,0 +1,77 @@
+Sub UserForm_Initialize()
+    ComboBox1.AddItem "1"
+    ComboBox1.AddItem "2"
+    ComboBox1.AddItem "3"
+    ComboBox1.AddItem "4"
+    ComboBox1.AddItem "5"
+    ComboBox1.AddItem "6"
+End Sub
+Public Property Get SamID() As String
+    SamID = SampleID.Value
+End Property
+
+Public Property Get SamNum() As String
+    SamNum = ComboBox1.Value
+End Property
+
+Sub CommandButton1_Click()
+Dim ws As Worksheet, strFile As String
+Dim ws1 As Worksheet, strFile2 As String
+
+Set ws = ActiveWorkbook.Sheets("Sample" & SamNum)
+
+strFile = Application.GetOpenFilename("Text Files (*.csv),*.csv", , "Please select text file...")
+
+With ws.QueryTables.Add(Connection:="TEXT;" & strFile, Destination:=ws.Range("A1"))
+     .TextFileParseType = xlDelimited
+     .TextFileCommaDelimiter = True
+     .Refresh
+End With
+strFile2 = Application.GetOpenFilename("Text Files (*.csv),*.csv", , "Please select text file...")
+
+With ws.QueryTables.Add(Connection:="TEXT;" & strFile2, Destination:=ws.Range("A8"))
+     .TextFileParseType = xlDelimited
+     .TextFileCommaDelimiter = True
+     .Refresh
+End With
+
+
+Set ws1 = ActiveWorkbook.Sheets("Glycol Result")
+If SamNum = 1 Then
+ Range("C3").Formula = SamID
+ElseIf SamNum = 2 Then
+ Range("D3").Formula = SamID
+ElseIf SamNum = 3 Then
+ Range("E3").Formula = SamID
+ElseIf SamNum = 4 Then
+ Range("F3").Formula = SamID
+ElseIf SamNum = 5 Then
+ Range("G3").Formula = SamID
+ElseIf SamNum = 6 Then
+ Range("H3").Formula = SamID
+End If
+  
+Hide
+End Sub
+
+Sub CommandButton2_Click()
+Set ws = ActiveWorkbook.Sheets("Sample" & SamNum)
+ActiveWorkbook.Sheets("Glycol Result").Activate
+If SamNum = 1 Then
+ Range("C3").ClearContents
+ElseIf SamNum = 2 Then
+ Range("D3").ClearContents
+ElseIf SamNum = 3 Then
+ Range("E3").ClearContents
+ElseIf SamNum = 4 Then
+ Range("F3").ClearContents
+ElseIf SamNum = 5 Then
+ Range("G3").ClearContents
+ElseIf SamNum = 6 Then
+ Range("H3").ClearContents
+End If
+ws.Range("A1:H14").Clear
+ Hide
+End Sub
+
+
