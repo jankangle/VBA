@@ -75,3 +75,42 @@ ws.Range("A1:H14").Clear
 End Sub
 
 
+Public Property Get SamID() As String
+    SamID = TextBox1.Value
+End Property
+
+Sub CommandButton1_Click()
+Dim ws As Worksheet
+Dim rng As Range
+Dim ColumnLetter As String
+Dim ColumnNumber As Long
+Dim strFile As String
+
+ Set ws = ActiveWorkbook.Sheets("Sample")
+ Set ws1 = ActiveWorkbook.Sheets("Glycol Result")
+ ws1.Activate
+ strFile = Application.ActiveWorkbook.FullName
+ ws.Visible = True
+ws.Copy
+Range("A5, F5").Formula = SamID
+
+Set rng = ws1.Range("J14:O14")
+For Each Cell In rng
+If Cell.Value = SamID Then
+  ColumnNumber = Cell.Column
+ 'Convert To Column Letter
+  ColumnLetter = Split(Cells(1, ColumnNumber).Address, "$")(1)
+ Range("N31, W31").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "16"
+ Range("N32, W32").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "15"
+ Range("N33, W33").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "17"
+ Range("N34, W34").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "18"
+ Range("N35, W35").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "19"
+ Range("N36, W36").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "20"
+ Range("N37, W37").Formula = "=" & "'" & strFile & "'!" & ColumnLetter & "21"
+ Exit For
+End If
+Next Cell
+ws.Visible = False
+Hide
+
+End Sub
